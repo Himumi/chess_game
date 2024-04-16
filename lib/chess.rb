@@ -67,4 +67,17 @@ class Chess
     input[0] = letters[input[0]]
     input.join
   end
+
+  def convert_to_key(input)
+    input = input.chars
+    return nil if invalid?(input)
+
+    letters = {"1" => "a", "2" => "b", "3" => "c", "4" => "d", "5" => "e", "6" => "f", "8" => "h" }
+    input[0] = letters[input[0]]
+    input.join
+  end
+
+  def invalid?(array)
+    array.length > 3 or array.any? { |item| !item.between?("1", "8") }
+  end
 end
