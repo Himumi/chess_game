@@ -12,7 +12,7 @@ class Chess
     ("1".."8").to_a.reverse.each do |number|
       ("a".."h").each { |letter| board["#{letter}#{number}"] = nil }
     end
-    board = add_pieces_to_board(board)
+    board
   end
 
   def print_board
@@ -51,5 +51,11 @@ class Chess
       "pawn" => Pawn.new(key, color),
     }
     new[role]
+  end
+
+  def valid_input?(input)
+    return false unless input.length.eql?(2)
+
+    input[0].between?("a","h") and input[1].between?("1","8")
   end
 end
