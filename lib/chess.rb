@@ -1,8 +1,9 @@
+require_relative 'pieces'
 class Chess
   attr_reader :board, :players
   def initialize(first, last)
-    @board = create_board
     @players = [first, last]
+    @board = create_board
   end
 
   def create_board
@@ -11,7 +12,7 @@ class Chess
     ("1".."8").to_a.reverse.each do |number|
       ("a".."h").each { |letter| board["#{letter}#{number}"] = nil }
     end
-    board
+    board = add_pieces_to_board(board)
   end
 
   def print_board
@@ -29,5 +30,26 @@ class Chess
       display += item.nil? ? "   |" : " #{item} |"
     end
     puts display + "\n#{dashes}" + letters
+  end
+
+  def add_pieces_to_board(board)
+    players.each do |player|
+      player.pieces.each do |role, keys|
+        keys.each { |key| board[key] = new_piece(role, key, player.color) }
+      end
+    end
+    board
+  end
+
+  def new_piece(role, key, color)
+    new = {
+      "king" => King.new(key, color),
+      "queen" => Queen.new(key, color),
+      "bishop" => Bishop.new(key, color),
+      "knight" => Knight.new(key, color),
+      "rook" => Rook.new(key, color),
+      "pawn" => Pawn.new(key, color),
+    }
+    new[role]
   end
 end
