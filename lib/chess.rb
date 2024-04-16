@@ -55,4 +55,8 @@ class Chess
     }
     new[role]
   end
+
+  def add_to_board(piece)
+    @board[piece.key] = piece
+  end
 end
