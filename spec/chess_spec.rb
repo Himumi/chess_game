@@ -36,4 +36,23 @@ describe Chess do
       end
     end
   end
+
+  describe '#convert_to_number' do
+    context 'when user inputs valid value (a1)' do
+
+      it 'returns 11' do
+        input = "a1"
+        converted_input = game.convert_to_number(input)
+        expect(converted_input).to eq("11")
+      end
+    end
+
+    context 'when user inputs invalid value (l0)' do
+      it 'returns nil' do
+        input = "l0"
+        converted_input = game.convert_to_number(input)
+        expect(converted_input).to be_nil
+      end
+    end
+  end
 end
