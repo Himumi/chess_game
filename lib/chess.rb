@@ -58,4 +58,13 @@ class Chess
 
     input[0].between?("a","h") and input[1].between?("1","8")
   end
+
+  def convert_to_number(input)
+    return nil unless valid_input?(input)
+    input = input.chars
+
+    letters = {"a" => 1, "b" => 2, "c" => 3, "d" => 4, "e" => 5, "f" => 6, "h" => 8}
+    input[0] = letters[input[0]]
+    input.join
+  end
 end
