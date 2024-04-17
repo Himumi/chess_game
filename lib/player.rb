@@ -1,15 +1,16 @@
 class Player
-  attr_accessor :name, :available_pieces
+  attr_accessor :name, :game, :available_pieces
   attr_reader :pieces, :color
 
-  def initialize(name)
+  def initialize(game, name)
+    @game = game
     @name = name
   end
 end
 
 class WhitePlayer < Player
-  def initialize(name)
-    super(name)
+  def initialize(game, name)
+    super(game, name)
     @pieces = {
       "king" => ["e1"],
       "queen" => ["d1"],
@@ -24,8 +25,8 @@ class WhitePlayer < Player
 end
 
 class BlackPlayer < Player
-  def initialize(name)
-    super(name)
+  def initialize(game, name)
+    super(game, name)
     @pieces = {
       "king" => ["e8"],
       "queen" => ["d8"],

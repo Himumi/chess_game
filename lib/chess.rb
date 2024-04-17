@@ -5,7 +5,7 @@ class Chess
 
   attr_reader :board, :players
   def initialize(first, last)
-    @players = [first, last]
+    @players = [first.new(self, "foo"), last.new(self, "hoo")]
     @board = create_board
   end
 
