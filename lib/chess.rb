@@ -35,23 +35,22 @@ class Chess
     puts display + "\n#{dashes}" + letters
   end
 
-  def add_pieces_to_board(board)
+  def add_pieces_to_board
     players.each do |player|
       player.pieces.each do |role, keys|
         keys.each { |key| board[key] = new_piece(role, key, player.color) }
       end
     end
-    board
   end
 
   def new_piece(role, key, color)
     new = {
-      "king" => King.new(key, color),
-      "queen" => Queen.new(key, color),
-      "bishop" => Bishop.new(key, color),
-      "knight" => Knight.new(key, color),
-      "rook" => Rook.new(key, color),
-      "pawn" => Pawn.new(key, color),
+      "king" => King.new(key, color, self),
+      "queen" => Queen.new(key, color, self),
+      "bishop" => Bishop.new(key, color, self),
+      "knight" => Knight.new(key, color, self),
+      "rook" => Rook.new(key, color, self),
+      "pawn" => Pawn.new(key, color, self),
     }
     new[role]
   end
