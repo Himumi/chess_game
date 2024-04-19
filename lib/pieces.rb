@@ -2,19 +2,42 @@ require './lib/validation.rb'
 class Pieces
   include Validation
 
-  attr_reader :key, :color, :role, :symbol, :marker, :max_paths, :max_each_direction
-  attr_accessor :valid_movement, :game
+  attr_reader :key, :color, :role, :symbol, :marker, :valid_movement
+  attr_accessor :game
 
   def initialize(key, color, game)
     @key = key
     @color = color
     @game = game
-    @valid_movement = []
   end
 
   def symbols
     return marker[0] if color.eql?("white")
     return marker[1] if color.eql?("black")
+  end
+
+  def update_valid_move
+    board, result = game.board, []
+
+    @max_paths.times do |path|
+      stop, current_position = false, key #to reset current position
+
+      @max_each_direction.times do
+        curr_key = direction(current_position, path)
+
+        invalid_key = curr_key.nil?
+        empty = board[curr_key].nil?
+
+        if stop or invalid_key or (!empty and board[curr_key].color.eql?(color))
+          stop = true
+          next
+        end
+
+        current_position = curr_key
+        result << curr_key
+      end
+    end
+    @valid_movement = result
   end
 
   def to_s
