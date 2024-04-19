@@ -164,4 +164,13 @@ class Pawn < Pieces
     @marker = ["\u2659", "\u265F"]
     @symbol = symbols
   end
+
+  def valid_direction(key)
+    key = convert_to_number(key).chars
+    a, b = key[0].to_i, key[1].to_i
+
+    direction = { "white" => [a, b+1], "black" => [a, b-1] }
+
+    convert_to_key(direction[color].join)
+  end
 end
