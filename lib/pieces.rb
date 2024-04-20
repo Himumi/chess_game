@@ -209,23 +209,23 @@ class Pawn < Pieces
     key = convert_to_number(key).chars
     a, b = key[0].to_i, key[1].to_i
 
-    direction = {
+    paths = {
       "white" => [a, b+1],
       "black" => [a, b-1]
     }
 
-    convert_to_key(direction[color].join)
+    convert_to_key(paths[color].join)
   end
 
   def capturable_direction(key, path)
     key = convert_to_number(key).chars
     a, b = key[0].to_i, key[1].to_i
 
-    directions = {
+    paths = {
       "white" => [[a-1, b+1], [a+1, b+1]],
       "black" => [[a-1, b-1], [a+1, b-1]]
     }
 
-    convert_to_key(directions[color][path].join)
+    convert_to_key(paths[color][path].join)
   end
 end
