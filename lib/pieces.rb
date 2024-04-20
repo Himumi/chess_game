@@ -3,12 +3,13 @@ class Pieces
   include Validation
 
   attr_reader :key, :color, :role, :symbol, :marker, :valid_movement
-  attr_accessor :game
+  attr_accessor :game, :moved
 
   def initialize(key, color, game)
     @key = key
     @color = color
     @game = game
+    @moved = false
   end
 
   def symbols
@@ -163,6 +164,25 @@ class Pawn < Pieces
     @role = "pawn"
     @marker = ["\u2659", "\u265F"]
     @symbol = symbols
+  end
+
+  def valid_move
+    board, current_position, stop, result = game.board, key, false, []
+
+    max_move = @moved ? 1 : 2 # when false can move 2 step
+
+    max_move.times do
+      curr_key = valid_direction(current_position)
+
+      empty = board[curr_key].nil?
+      invalid_key = curr_key.nil?
+
+      next stop = true if stop or invalid_key or !empty
+
+      current_position = curr_key
+      result << curr_key
+    end
+    result
   end
 
   def valid_direction(key)
