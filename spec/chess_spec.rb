@@ -1,9 +1,9 @@
-require './lib/chess'
+require './lib/chess.rb'
+require './lib/pieces.rb'
+require './lib/player.rb'
 
 describe Chess do
-  let(:first) { double('Player' ) }
-  let(:last) { double('Player') }
-  subject(:game) { described_class.new(first, last) }
+  subject(:game) { Chess.new(WhitePlayer, BlackPlayer) }
   describe '#create_board' do
     context 'when method is called' do
 
@@ -71,7 +71,6 @@ describe Chess do
         converted_input = game.convert_to_key(input)
         expect(converted_input).to be_nil
       end
-
     end
   end
 end
