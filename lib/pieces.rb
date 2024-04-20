@@ -185,6 +185,22 @@ class Pawn < Pieces
     result
   end
 
+  def capturable_move
+    board, current_position, result = game.board, key, []
+
+    2.times do |path|
+      curr_key = capturable_direction(current_position, path)
+
+      invalid_key = curr_key.nil?
+      empty = board[curr_key].nil?
+
+      next if invalid_key or empty or board[curr_key].color.eql?(color) # is ally
+
+      result << curr_key
+    end
+    result
+  end
+
   def valid_direction(key)
     key = convert_to_number(key).chars
     a, b = key[0].to_i, key[1].to_i
