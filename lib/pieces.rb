@@ -56,7 +56,7 @@ class King < Pieces
     @max_each_direction = 1
   end
 
-  def direction(key, index)
+  def direction(key, path)
     key = convert_to_number(key).chars
     a, b = key[0].to_i, key[1].to_i
 
@@ -65,7 +65,7 @@ class King < Pieces
       [a+1, b], [a+1, b-1], [a, b-1], [a-1, b-1]
     ]
 
-    convert_to_key(paths[index].join)
+    convert_to_key(paths[path].join)
   end
 end
 
@@ -79,7 +79,7 @@ class Queen < Pieces
     @max_each_direction = 7
   end
 
-  def direction(key, index)
+  def direction(key, path)
     key = convert_to_number(key).chars
     a, b = key[0].to_i, key[1].to_i
 
@@ -88,7 +88,7 @@ class Queen < Pieces
       [a+1, b], [a+1, b-1], [a, b-1], [a-1, b-1]
     ]
 
-    convert_to_key(paths[index].join)
+    convert_to_key(paths[path].join)
   end
 end
 
@@ -102,7 +102,7 @@ class Bishop < Pieces
     @max_each_direction = 7
   end
 
-  def direction(key, index)
+  def direction(key, path)
     key = convert_to_number(key).chars
     a, b = key[0].to_i, key[1].to_i
 
@@ -110,7 +110,7 @@ class Bishop < Pieces
       [a-1, b+1], [a+1, b+1], [a+1, b-1], [a-1, b-1]
     ]
 
-    convert_to_key(paths[index].join)
+    convert_to_key(paths[path].join)
   end
 end
 
@@ -124,7 +124,7 @@ class Knight < Pieces
     @max_each_direction = 1
   end
 
-  def direction(key, index)
+  def direction(key, path)
     key = convert_to_number(key).chars
     a, b = key[0].to_i, key[1].to_i
 
@@ -132,7 +132,7 @@ class Knight < Pieces
       [a-2, b+1], [a-1, b+2], [a+1, b+2], [a+2, b+1],
       [a+2, b-1], [a+1, b-2], [a-1, b-2], [a-2, b-1]
     ]
-    convert_to_key(paths[index].join)
+    convert_to_key(paths[path].join)
   end
 end
 
@@ -146,7 +146,7 @@ class Rook < Pieces
     @max_each_direction = 7
   end
 
-  def direction(key, index)
+  def direction(key, path)
     key = convert_to_number(key).chars
     a, b = key[0].to_i, key[1].to_i
 
@@ -154,7 +154,7 @@ class Rook < Pieces
       [a-1, b], [a, b+1], [a+1, b], [a, b-1]
     ]
 
-    convert_to_key(paths[index].join)
+    convert_to_key(paths[path].join)
   end
 end
 
