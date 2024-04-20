@@ -166,6 +166,10 @@ class Pawn < Pieces
     @symbol = symbols
   end
 
+  def update_valid_move
+    @valid_movement = valid_move + capturable_move
+  end
+
   def valid_move
     board, current_position, stop, result = game.board, key, false, []
 
