@@ -1,15 +1,35 @@
 class Player
-  attr_accessor :name, :available_pieces
   attr_reader :pieces, :color
+  attr_accessor :name, :game, :available_pieces
 
-  def initialize(name)
+  def initialize(game, name)
+    @game = game
     @name = name
+  end
+
+  def move(source, destination)
+    game.board[destination].nil? ?
+      nil_at_destination(source, destination) :
+      opponent_at_destination(source, destination)
+  end
+
+  def nil_at_destination(source, destination)
+    game.board[destination] = game.board[source] # move piece to destination
+    game.board[destination].key = destination # update piece key to new one
+    game.board[source] = nil # delete piece
+    @available_pieces.delete(source)
+    @available_pieces.push(destination)
+  end
+
+  def opponent_at_destination(source, destination)
+    game.opponent_player.available_pieces.delete(destination)
+    nil_at_destination(source, destination)
   end
 end
 
 class WhitePlayer < Player
-  def initialize(name)
-    super(name)
+  def initialize(game, name)
+    super(game, name)
     @pieces = {
       "king" => ["e1"],
       "queen" => ["d1"],
@@ -24,8 +44,8 @@ class WhitePlayer < Player
 end
 
 class BlackPlayer < Player
-  def initialize(name)
-    super(name)
+  def initialize(game, name)
+    super(game, name)
     @pieces = {
       "king" => ["e8"],
       "queen" => ["d8"],
