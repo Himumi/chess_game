@@ -33,6 +33,8 @@ class Pieces
           stop = true
           next
         end
+        # to prevent piece to leap over when meet opponent
+        stop = true if !empty and board[curr_key].color != color
 
         current_position = curr_key
         result << curr_key
