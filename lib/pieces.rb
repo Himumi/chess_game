@@ -2,7 +2,7 @@ require './lib/validation.rb'
 class Pieces
   include Validation
 
-  attr_reader :key, :color, :role, :symbol, :marker, :valid_movement
+  attr_reader :key, :color, :role, :symbol, :valid_movement
   attr_accessor :game, :moved
 
   def initialize(key, color, game)
@@ -13,8 +13,8 @@ class Pieces
   end
 
   def symbols
-    return marker[0] if color.eql?("white")
-    return marker[1] if color.eql?("black")
+    return @marker[0] if color.eql?("white")
+    return @marker[1] if color.eql?("black")
   end
 
   def update_valid_move
@@ -38,7 +38,7 @@ class Pieces
         result << curr_key
       end
     end
-    @valid_movement = result
+  @valid_movement = result
   end
 
   def to_s
