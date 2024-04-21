@@ -7,6 +7,12 @@ class Player
     @name = name
   end
 
+  def move(source, destination)
+    game.board[destination].nil? ?
+      nil_at_destination(source, destination) :
+      opponent_at_destination(source, destination)
+  end
+
   def nil_at_destination(source, destination)
     game.board[destination] = game.board[source] # move piece to destination
     game.board[destination].key = destination # update piece key to new one
