@@ -7,6 +7,7 @@ class Chess
   def initialize(first, last)
     @players = [first.new(self, "foo"), last.new(self, "hoo")]
     @board = create_board
+    @current_player_id = 0
   end
 
   def create_board
@@ -57,5 +58,21 @@ class Chess
 
   def add_to_board(piece)
     @board[piece.key] = piece
+  end
+
+  def opponent_player_id
+    1 - @current_player_id
+  end
+
+  def current_player
+    @players[@current_player_id]
+  end
+
+  def opponent_player
+    @players[opponent_player_id]
+  end
+
+  def switch_player
+    @current_player_id = opponent_player_id
   end
 end
