@@ -2,8 +2,8 @@ require './lib/validation.rb'
 class Pieces
   include Validation
 
-  attr_reader :key, :color, :role, :symbol, :valid_movement
-  attr_accessor :game, :moved
+  attr_reader :color, :role, :symbol, :valid_movement
+  attr_accessor :game, :moved, :key
 
   def initialize(key, color, game)
     @key = key
