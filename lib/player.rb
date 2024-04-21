@@ -1,10 +1,23 @@
 class Player
-  attr_accessor :name, :game, :available_pieces
   attr_reader :pieces, :color
+  attr_accessor :name, :game, :available_pieces
 
   def initialize(game, name)
     @game = game
     @name = name
+  end
+
+  def nil_at_destination(source, destination)
+    game.board[destination] = game.board[source] # move piece to destination
+    game.board[destination].key = destination # update piece key to new one
+    game.board[source] = nil # delete piece
+    @available_pieces.delete(source)
+    @available_pieces.push(destination)
+  end
+
+  def opponent_at_destination(source, destination)
+    game.opponent_player.available_pieces.delete(destination)
+    nil_at_destination(source, destination)
   end
 end
 
