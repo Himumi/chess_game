@@ -3,13 +3,14 @@ class Pieces
   include Validation
 
   attr_reader :color, :role, :symbol, :valid_movement
-  attr_accessor :game, :moved, :key
+  attr_accessor :game, :moved, :key, :round
 
   def initialize(key, color, game)
     @key = key
     @color = color
     @game = game
     @moved = false
+    @round = 0
   end
 
   def symbols
