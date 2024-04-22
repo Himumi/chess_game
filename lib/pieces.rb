@@ -167,7 +167,10 @@ class Pawn < Pieces
     @role = "pawn"
     @marker = ["\u2659", "\u265F"]
     @symbol = symbols
+    @two_step = false
   end
+
+  attr_accessor :two_step
 
   def update_valid_move
     @valid_movement = valid_move + capturable_move
