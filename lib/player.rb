@@ -7,18 +7,51 @@ class Player
     @name = name
   end
 
+  def en_passant_move(source, destination)
+    opponet_key = game.board[source].en_passant_direction(destination)
+    # get opponent_key
+    nil_at_destination(source, destination) # move source piece to nil board
+
+    game.board[opponet_key] = nil # delete opponent piece
+    game.opponent_player.available_pieces.delete(opponet_key) # delete opponent key from list
+  end
+
+
+  def two_step(source, destination)
+    if game.board[source].role == "pawn"
+      two_square = (destination[1].to_i - source[1].to_i).abs.eql?(2)
+
+      game.board[source].two_step = two_square
+    end
+  end
+
+  def add_round_game(source)
+    game.board[source].round = game.round
+  end
+
   def move(source, destination)
-    game.board[destination].nil? ?
+    s_piece = game.board[source]
+    d_piece = game.board[destination]
+
+    if s_piece.en_passant?(source, destination)
+      return en_passant_move(source, destination)
+    end
+
+    d_piece.nil? ?
       nil_at_destination(source, destination) :
       opponent_at_destination(source, destination)
   end
 
   def nil_at_destination(source, destination)
+    add_round_game(source)
+    two_step(source, destination)
+
     game.board[destination] = game.board[source] # move piece to destination
     game.board[destination].key = destination # update piece key to new one
     game.board[source] = nil # delete piece
     @available_pieces.delete(source)
     @available_pieces.push(destination)
+
   end
 
   def opponent_at_destination(source, destination)

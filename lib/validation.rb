@@ -32,4 +32,20 @@ module Validation
   def invalid?(array)
     array.length > 3 or array.any? { |item| !item.between?("1", "8") }
   end
+
+  # def en_passant?(source, destination)
+  #   s_piece = game.board[source]
+  #   d_piece = game.board[destination]
+
+  #   return false if !s_piece.role.eql?("pawn") or !d_piece.nil?
+
+  #   valid_round = (game.round - d_piece.round).eql?(1)
+
+  #   s_number = convert_to_number(source).chars
+  #   d_number = convert_to_number(destination).chars
+
+  #   neighbor = [-1, 1].include?(s_number[0].to_i - d_number[0].to_i)
+
+  #   d_piece.two_step and valid_round and neighbor
+  # end
 end

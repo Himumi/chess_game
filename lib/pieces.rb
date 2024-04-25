@@ -3,7 +3,6 @@ class Pieces
   include Validation
 
   attr_reader :color, :role, :symbol, :valid_movement
-  attr_accessor :game, :moved, :key, :round
 
   def initialize(key, color, game)
     @key = key
@@ -12,6 +11,8 @@ class Pieces
     @moved = false
     @round = 0
   end
+
+  attr_accessor :game, :moved, :key, :round
 
   def symbols
     return @marker[0] if color.eql?("white")
@@ -234,4 +235,18 @@ class Pawn < Pieces
 
     convert_to_key(paths[color][path].join)
   end
+
+  def en_passant_direction(key)
+    key = convert_to_number(key).chars
+    a, b = key[0].to_i, key[1].to_i
+
+    paths = {
+      "white" => [a, b-1],
+      "black" => [a, b+1]
+    }
+
+    convert_to_key(paths[color].join)
+  end
+
+
 end
