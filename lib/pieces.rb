@@ -236,7 +236,7 @@ class Pawn < Pieces
     convert_to_key(paths[color][path].join)
   end
 
-  def en_passant_direction(key)
+  def en_passant_piece(key)
     key = convert_to_number(key).chars
     a, b = key[0].to_i, key[1].to_i
 
@@ -247,6 +247,4 @@ class Pawn < Pieces
 
     convert_to_key(paths[color].join)
   end
-
-
 end
