@@ -17,6 +17,7 @@ class Player
 
   def nil_at_destination(source, destination)
     add_round_game(source)
+    pawn_two_step(source, destination)
 
     game.board[destination] = game.board[source] # move piece to destination
     game.board[destination].key = destination # update piece key to new one
@@ -32,6 +33,19 @@ class Player
 
   def add_round_game(source)
     game.board[source].round = game.round
+  end
+
+  def pawn_two_step(source, destination)
+    s, d, board = source, destination, game.board
+
+    if board[s].role.eql?("pawn")
+      game.board[s].two_step = valid_two_step_position(s, d)
+    end
+  end
+
+  def valid_two_step_position(source, destination)
+    s, d = source, destination
+    s[0].eql?(d[0]) and (d[1].to_i - s[1].to_i).abs.eql?(2)
   end
 end
 
