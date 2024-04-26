@@ -10,6 +10,8 @@ class Player
   def move(source, destination)
     destination_piece = game.board[destination]
 
+    return en_passant_move(source, destination) if game.en_passant
+    
     destination_piece.nil? ?
       nil_at_destination(source, destination) :
       opponent_at_destination(source, destination)
@@ -46,6 +48,15 @@ class Player
   def valid_two_step_position(source, destination)
     s, d = source, destination
     s[0].eql?(d[0]) and (d[1].to_i - s[1].to_i).abs.eql?(2)
+  end
+
+  def en_passant_move(source, destination)
+    en_passant_key = game.board[source].en_passant_piece(destination)
+    # get opponent_key
+    nil_at_destination(source, destination) # move source piece to nil board
+
+    game.board[en_passant_key] = nil # delete opponent piece
+    game.opponent_player.available_pieces.delete(en_passant_key) # delete opponent key from list
   end
 end
 
