@@ -3,11 +3,14 @@ require './lib/validation'
 class Chess
   include Validation
 
-  attr_reader :board, :players
+  attr_reader :board, :players, :en_passant
+  attr_accessor :round
   def initialize(first, last)
     @players = [first.new(self, "foo"), last.new(self, "hoo")]
     @board = create_board
     @current_player_id = 0
+    @round = 1
+    @en_passant = false
   end
 
   def create_board

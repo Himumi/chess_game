@@ -8,12 +8,19 @@ class Player
   end
 
   def move(source, destination)
-    game.board[destination].nil? ?
+    destination_piece = game.board[destination]
+
+    return en_passant_move(source, destination) if game.en_passant
+    
+    destination_piece.nil? ?
       nil_at_destination(source, destination) :
       opponent_at_destination(source, destination)
   end
 
   def nil_at_destination(source, destination)
+    add_round_game(source)
+    pawn_two_step(source, destination)
+
     game.board[destination] = game.board[source] # move piece to destination
     game.board[destination].key = destination # update piece key to new one
     game.board[source] = nil # delete piece
@@ -24,6 +31,32 @@ class Player
   def opponent_at_destination(source, destination)
     game.opponent_player.available_pieces.delete(destination)
     nil_at_destination(source, destination)
+  end
+
+  def add_round_game(source)
+    game.board[source].round = game.round
+  end
+
+  def pawn_two_step(source, destination)
+    s, d, board = source, destination, game.board
+
+    if board[s].role.eql?("pawn")
+      game.board[s].two_step = valid_two_step_position(s, d)
+    end
+  end
+
+  def valid_two_step_position(source, destination)
+    s, d = source, destination
+    s[0].eql?(d[0]) and (d[1].to_i - s[1].to_i).abs.eql?(2)
+  end
+
+  def en_passant_move(source, destination)
+    en_passant_key = game.board[source].en_passant_piece(destination)
+    # get opponent_key
+    nil_at_destination(source, destination) # move source piece to nil board
+
+    game.board[en_passant_key] = nil # delete opponent piece
+    game.opponent_player.available_pieces.delete(en_passant_key) # delete opponent key from list
   end
 end
 
