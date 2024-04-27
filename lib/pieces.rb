@@ -1,4 +1,4 @@
-require './lib/validation.rb'
+require './lib/validation'
 class Pieces
   include Validation
 
@@ -15,15 +15,18 @@ class Pieces
   attr_accessor :game, :moved, :key, :round
 
   def symbols
-    return @marker[0] if color.eql?("white")
-    return @marker[1] if color.eql?("black")
+    return @marker[0] if color.eql?('white')
+
+    @marker[1] if color.eql?('black')
   end
 
   def update_valid_move
-    board, result = game.board, []
+    board = game.board
+    result = []
 
     @max_paths.times do |path|
-      stop, current_position = false, key #to reset current position
+      stop = false
+      current_position = key # to reset current position
 
       @max_each_direction.times do
         curr_key = direction(current_position, path)
@@ -42,7 +45,7 @@ class Pieces
         result << curr_key
       end
     end
-  @valid_movement = result
+    @valid_movement = result
   end
 
   def to_s
@@ -53,7 +56,7 @@ end
 class King < Pieces
   def initialize(key, color, game)
     super(key, color, game)
-    @role = "king"
+    @role = 'king'
     @marker = ["\u2654", "\u265A"]
     @symbol = symbols
     @max_paths = 8
@@ -62,11 +65,12 @@ class King < Pieces
 
   def direction(key, path)
     key = convert_to_number(key).chars
-    a, b = key[0].to_i, key[1].to_i
+    a = key[0].to_i
+    b = key[1].to_i
 
     paths = [
-      [a-1, b], [a-1, b+1], [a, b+1], [a+1, b+1],
-      [a+1, b], [a+1, b-1], [a, b-1], [a-1, b-1]
+      [a - 1, b], [a - 1, b + 1], [a, b + 1], [a + 1, b + 1],
+      [a + 1, b], [a + 1, b - 1], [a, b - 1], [a - 1, b - 1]
     ]
 
     convert_to_key(paths[path].join)
@@ -76,7 +80,7 @@ end
 class Queen < Pieces
   def initialize(key, color, game)
     super(key, color, game)
-    @role = "queen"
+    @role = 'queen'
     @marker = ["\u2655", "\u265B"]
     @symbol = symbols
     @max_paths = 8
@@ -85,11 +89,12 @@ class Queen < Pieces
 
   def direction(key, path)
     key = convert_to_number(key).chars
-    a, b = key[0].to_i, key[1].to_i
+    a = key[0].to_i
+    b = key[1].to_i
 
     paths = [
-      [a-1, b], [a-1, b+1], [a, b+1], [a+1, b+1],
-      [a+1, b], [a+1, b-1], [a, b-1], [a-1, b-1]
+      [a - 1, b], [a - 1, b + 1], [a, b + 1], [a + 1, b + 1],
+      [a + 1, b], [a + 1, b - 1], [a, b - 1], [a - 1, b - 1]
     ]
 
     convert_to_key(paths[path].join)
@@ -99,7 +104,7 @@ end
 class Bishop < Pieces
   def initialize(key, color, game)
     super(key, color, game)
-    @role = "bishop"
+    @role = 'bishop'
     @marker = ["\u2657", "\u265D"]
     @symbol = symbols
     @max_paths = 4
@@ -108,10 +113,11 @@ class Bishop < Pieces
 
   def direction(key, path)
     key = convert_to_number(key).chars
-    a, b = key[0].to_i, key[1].to_i
+    a = key[0].to_i
+    b = key[1].to_i
 
     paths = [
-      [a-1, b+1], [a+1, b+1], [a+1, b-1], [a-1, b-1]
+      [a - 1, b + 1], [a + 1, b + 1], [a + 1, b - 1], [a - 1, b - 1]
     ]
 
     convert_to_key(paths[path].join)
@@ -121,7 +127,7 @@ end
 class Knight < Pieces
   def initialize(key, color, game)
     super(key, color, game)
-    @role = "knight"
+    @role = 'knight'
     @marker = ["\u2658", "\u265E"]
     @symbol = symbols
     @max_paths = 8
@@ -130,11 +136,12 @@ class Knight < Pieces
 
   def direction(key, path)
     key = convert_to_number(key).chars
-    a, b = key[0].to_i, key[1].to_i
+    a = key[0].to_i
+    b = key[1].to_i
 
     paths = [
-      [a-2, b+1], [a-1, b+2], [a+1, b+2], [a+2, b+1],
-      [a+2, b-1], [a+1, b-2], [a-1, b-2], [a-2, b-1]
+      [a - 2, b + 1], [a - 1, b + 2], [a + 1, b + 2], [a + 2, b + 1],
+      [a + 2, b - 1], [a + 1, b - 2], [a - 1, b - 2], [a - 2, b - 1]
     ]
     convert_to_key(paths[path].join)
   end
@@ -143,7 +150,7 @@ end
 class Rook < Pieces
   def initialize(key, color, game)
     super(key, color, game)
-    @role = "rook"
+    @role = 'rook'
     @marker = ["\u2656", "\u265C"]
     @symbol = symbols
     @max_paths = 4
@@ -152,10 +159,11 @@ class Rook < Pieces
 
   def direction(key, path)
     key = convert_to_number(key).chars
-    a, b = key[0].to_i, key[1].to_i
+    a = key[0].to_i
+    b = key[1].to_i
 
     paths = [
-      [a-1, b], [a, b+1], [a+1, b], [a, b-1]
+      [a - 1, b], [a, b + 1], [a + 1, b], [a, b - 1]
     ]
 
     convert_to_key(paths[path].join)
@@ -165,7 +173,7 @@ end
 class Pawn < Pieces
   def initialize(key, color, game)
     super(key, color, game)
-    @role = "pawn"
+    @role = 'pawn'
     @marker = ["\u2659", "\u265F"]
     @symbol = symbols
     @two_step = false
@@ -178,7 +186,10 @@ class Pawn < Pieces
   end
 
   def valid_move
-    board, current_position, stop, result = game.board, key, false, []
+    board = game.board
+    current_position = key
+    stop = false
+    result = []
 
     max_move = @moved ? 1 : 2 # when false can move 2 step
 
@@ -197,7 +208,9 @@ class Pawn < Pieces
   end
 
   def capturable_move
-    board, current_position, result = game.board, key, []
+    board = game.board
+    current_position = key
+    result = []
 
     2.times do |path|
       curr_key = capturable_direction(current_position, path)
@@ -214,11 +227,12 @@ class Pawn < Pieces
 
   def valid_direction(key)
     key = convert_to_number(key).chars
-    a, b = key[0].to_i, key[1].to_i
+    a = key[0].to_i
+    b = key[1].to_i
 
     paths = {
-      "white" => [a, b+1],
-      "black" => [a, b-1]
+      'white' => [a, b + 1],
+      'black' => [a, b - 1]
     }
 
     convert_to_key(paths[color].join)
@@ -226,11 +240,12 @@ class Pawn < Pieces
 
   def capturable_direction(key, path)
     key = convert_to_number(key).chars
-    a, b = key[0].to_i, key[1].to_i
+    a = key[0].to_i
+    b = key[1].to_i
 
     paths = {
-      "white" => [[a-1, b+1], [a+1, b+1]],
-      "black" => [[a-1, b-1], [a+1, b-1]]
+      'white' => [[a - 1, b + 1], [a + 1, b + 1]],
+      'black' => [[a - 1, b - 1], [a + 1, b - 1]]
     }
 
     convert_to_key(paths[color][path].join)
@@ -238,11 +253,12 @@ class Pawn < Pieces
 
   def en_passant_piece(key)
     key = convert_to_number(key).chars
-    a, b = key[0].to_i, key[1].to_i
+    a = key[0].to_i
+    b = key[1].to_i
 
     paths = {
-      "white" => [a, b-1],
-      "black" => [a, b+1]
+      'white' => [a, b - 1],
+      'black' => [a, b + 1]
     }
 
     convert_to_key(paths[color].join)

@@ -5,8 +5,9 @@ class Chess
 
   attr_reader :board, :players, :en_passant
   attr_accessor :round
+
   def initialize(first, last)
-    @players = [first.new(self, "foo"), last.new(self, "hoo")]
+    @players = [first.new(self, 'foo'), last.new(self, 'hoo')]
     @board = create_board
     @current_player_id = 0
     @round = 1
@@ -16,25 +17,27 @@ class Chess
   def create_board
     board = {}
 
-    ("1".."8").to_a.reverse.each do |number|
-      ("a".."h").each { |letter| board["#{letter}#{number}"] = nil }
+    ('1'..'8').to_a.reverse.each do |number|
+      ('a'..'h').each { |letter| board["#{letter}#{number}"] = nil }
     end
     board
   end
 
   def print_board
-    display, letters, count = "", "  ", 8
+    display = ''
+    letters = '  '
+    count = 8
     dashes = "   - - - - - - - - - - - - - - - -\n"
-    ("A".."H").each { |letter| letters += "  #{letter} " }
+    ('A'..'H').each { |letter| letters += "  #{letter} " }
     @board.each do |key, item|
-      if key[0] == "a"
+      if key[0] == 'a'
         first = "\n#{dashes}#{count} |   |"
         second = "\n#{dashes}#{count} | #{item} |"
         display += item.nil? ? first : second
         count -= 1
         next
       end
-      display += item.nil? ? "   |" : " #{item} |"
+      display += item.nil? ? '   |' : " #{item} |"
     end
     puts display + "\n#{dashes}" + letters
   end
@@ -49,12 +52,12 @@ class Chess
 
   def new_piece(role, key, color)
     new = {
-      "king" => King.new(key, color, self),
-      "queen" => Queen.new(key, color, self),
-      "bishop" => Bishop.new(key, color, self),
-      "knight" => Knight.new(key, color, self),
-      "rook" => Rook.new(key, color, self),
-      "pawn" => Pawn.new(key, color, self),
+      'king' => King.new(key, color, self),
+      'queen' => Queen.new(key, color, self),
+      'bishop' => Bishop.new(key, color, self),
+      'knight' => Knight.new(key, color, self),
+      'rook' => Rook.new(key, color, self),
+      'pawn' => Pawn.new(key, color, self)
     }
     new[role]
   end

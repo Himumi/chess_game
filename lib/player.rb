@@ -11,10 +11,12 @@ class Player
     destination_piece = game.board[destination]
 
     return en_passant_move(source, destination) if game.en_passant
-    
-    destination_piece.nil? ?
-      nil_at_destination(source, destination) :
+
+    if destination_piece.nil?
+      nil_at_destination(source, destination)
+    else
       opponent_at_destination(source, destination)
+    end
   end
 
   def nil_at_destination(source, destination)
@@ -38,15 +40,18 @@ class Player
   end
 
   def pawn_two_step(source, destination)
-    s, d, board = source, destination, game.board
+    s = source
+    d = destination
+    board = game.board
 
-    if board[s].role.eql?("pawn")
-      game.board[s].two_step = valid_two_step_position(s, d)
-    end
+    return unless board[s].role.eql?('pawn')
+
+    game.board[s].two_step = valid_two_step_position(s, d)
   end
 
   def valid_two_step_position(source, destination)
-    s, d = source, destination
+    s = source
+    d = destination
     s[0].eql?(d[0]) and (d[1].to_i - s[1].to_i).abs.eql?(2)
   end
 
@@ -64,12 +69,12 @@ class WhitePlayer < Player
   def initialize(game, name)
     super(game, name)
     @pieces = {
-      "king" => ["e1"],
-      "queen" => ["d1"],
-      "bishop" => ["c1", "f1"],
-      "knight" => ["b1", "g1"],
-      "rook" => ["a1", "h1"],
-      "pawn" => ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"]
+      'king' => ['e1'],
+      'queen' => ['d1'],
+      'bishop' => %w[c1 f1],
+      'knight' => %w[b1 g1],
+      'rook' => %w[a1 h1],
+      'pawn' => %w[a2 b2 c2 d2 e2 f2 g2 h2]
     }
     @available_pieces = pieces.values.flatten
     @color = 'white'
@@ -80,12 +85,12 @@ class BlackPlayer < Player
   def initialize(game, name)
     super(game, name)
     @pieces = {
-      "king" => ["e8"],
-      "queen" => ["d8"],
-      "bishop" => ["c8", "f8"],
-      "knight" => ["b8", "g8"],
-      "rook" => ["a8", "h8"],
-      "pawn" => ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"]
+      'king' => ['e8'],
+      'queen' => ['d8'],
+      'bishop' => %w[c8 f8],
+      'knight' => %w[b8 g8],
+      'rook' => %w[a8 h8],
+      'pawn' => %w[a7 b7 c7 d7 e7 f7 g7 h7]
     }
     @available_pieces = pieces.values.flatten
     @color = 'black'
