@@ -1,6 +1,6 @@
 class Player
   attr_reader :pieces, :color
-  attr_accessor :name, :game, :available_pieces
+  attr_accessor :name, :game, :available_pieces, :pieces
 
   def initialize(game, name)
     @game = game
@@ -23,15 +23,19 @@ class Player
     add_round_game(source)
     pawn_two_step(source, destination)
 
-    game.board[destination] = game.board[source] # move piece to destination
-    game.board[destination].key = destination # update piece key to new one
-    game.board[source] = nil # delete piece
-    @available_pieces.delete(source)
-    @available_pieces.push(destination)
+    piece_role = game.board[source].role # update_@pieces_list
+    @pieces[piece_role].delete(source)
+    @pieces[piece_role].push(destination)
+
+    game.board[destination] = game.board[source] # move_piece_to_destination
+    game.board[destination].key = destination # update_piece.key_to_new_key
+    game.board[source] = nil # delete_piece
+    # @available_pieces.delete(source)
+    # @available_pieces.push(destination)
   end
 
   def opponent_at_destination(source, destination)
-    game.opponent_player.available_pieces.delete(destination)
+    game.opponent_player.pieces[game.board[destination].role].delete(destination)
     nil_at_destination(source, destination)
   end
 
@@ -57,11 +61,11 @@ class Player
 
   def en_passant_move(source, destination)
     en_passant_key = game.board[source].en_passant_piece(destination)
-    # get opponent_key
-    nil_at_destination(source, destination) # move source piece to nil board
 
-    game.board[en_passant_key] = nil # delete opponent piece
-    game.opponent_player.available_pieces.delete(en_passant_key) # delete opponent key from list
+    nil_at_destination(source, destination) # move_source_piece_to_destinatio
+
+    game.board[en_passant_key] = nil # delete_opponent_piece
+    game.opponent_player.pieces['pawn'].delete(en_passant_key) # update_opponent_@pieces_list
   end
 end
 
