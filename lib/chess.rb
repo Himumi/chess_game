@@ -81,4 +81,15 @@ class Chess
   def switch_player
     @current_player_id = opponent_player_id
   end
+
+  def update_all_pieces_valid_moves
+    @players.each do |player|
+      player.all_valid_moves = []
+      player.available_pieces.each do |piece|
+        @board[piece].update_valid_move
+        player.all_valid_moves << @board[piece].valid_movement
+      end
+      player.all_valid_moves.flatten!.uniq!
+    end
+  end
 end

@@ -1,10 +1,11 @@
 class Player
   attr_reader :pieces, :color
-  attr_accessor :name, :game, :pieces
+  attr_accessor :name, :game, :pieces, :all_valid_moves
 
   def initialize(game, name)
     @game = game
     @name = name
+    @all_valid_moves = []
   end
 
   def available_pieces
