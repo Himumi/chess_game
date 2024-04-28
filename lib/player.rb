@@ -1,10 +1,14 @@
 class Player
   attr_reader :pieces, :color
-  attr_accessor :name, :game, :available_pieces, :pieces
+  attr_accessor :name, :game, :pieces
 
   def initialize(game, name)
     @game = game
     @name = name
+  end
+
+  def available_pieces
+    @pieces.values.flatten
   end
 
   def move(source, destination)
@@ -30,8 +34,6 @@ class Player
     game.board[destination] = game.board[source] # move_piece_to_destination
     game.board[destination].key = destination # update_piece.key_to_new_key
     game.board[source] = nil # delete_piece
-    # @available_pieces.delete(source)
-    # @available_pieces.push(destination)
   end
 
   def opponent_at_destination(source, destination)
@@ -80,7 +82,6 @@ class WhitePlayer < Player
       'rook' => %w[a1 h1],
       'pawn' => %w[a2 b2 c2 d2 e2 f2 g2 h2]
     }
-    @available_pieces = pieces.values.flatten
     @color = 'white'
   end
 end
@@ -96,7 +97,6 @@ class BlackPlayer < Player
       'rook' => %w[a8 h8],
       'pawn' => %w[a7 b7 c7 d7 e7 f7 g7 h7]
     }
-    @available_pieces = pieces.values.flatten
     @color = 'black'
   end
 end
