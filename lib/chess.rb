@@ -92,4 +92,15 @@ class Chess
       player.all_valid_moves.flatten!.uniq!
     end
   end
+
+  def update_checked_mated
+    @players.each_with_index do |player, i|
+      king_key = player.pieces["king"][0]
+      other_king_valid_moves = @players[i - 1].all_valid_moves
+
+      player.checked = other_king_valid_moves.include?(king_key)
+      
+      player.mated = @board[king_key].valid_movement.all? { |v| other_king_valid_moves.include?(v) }
+    end
+  end
 end
