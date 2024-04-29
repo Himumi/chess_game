@@ -107,4 +107,12 @@ class Chess
   def won?
     @players.any? { |player| player.checked and player.mated }
   end
+
+  def stalemated?
+    all_valid_moves = current_player.all_valid_moves
+    king_valid_moves = @board[current_player.pieces['king'][0]].valid_movement
+    not_has_legal_moves = (all_valid_moves - king_valid_moves).empty?
+
+    current_player.mated and !current_player.checked and not_has_legal_moves
+  end
 end
