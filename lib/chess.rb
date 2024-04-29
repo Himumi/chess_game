@@ -99,8 +99,12 @@ class Chess
       other_king_valid_moves = @players[i - 1].all_valid_moves
 
       player.checked = other_king_valid_moves.include?(king_key)
-      
+
       player.mated = @board[king_key].valid_movement.all? { |v| other_king_valid_moves.include?(v) }
     end
+  end
+
+  def won?
+    @players.any? { |player| player.checked and player.mated }
   end
 end
