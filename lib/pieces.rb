@@ -2,7 +2,7 @@ require './lib/validation'
 class Pieces
   include Validation
 
-  attr_reader :color, :role, :symbol, :valid_movement
+  attr_reader :color, :role, :symbol, :valid_movement, :letter
 
   def initialize(key, color, game)
     @key = key
@@ -59,6 +59,7 @@ class King < Pieces
     @role = 'king'
     @marker = ["\u2654", "\u265A"]
     @symbol = symbols
+    @letter = 'K'
     @max_paths = 8
     @max_each_direction = 1
   end
@@ -83,6 +84,7 @@ class Queen < Pieces
     @role = 'queen'
     @marker = ["\u2655", "\u265B"]
     @symbol = symbols
+    @letter = 'Q'
     @max_paths = 8
     @max_each_direction = 7
   end
@@ -107,6 +109,7 @@ class Bishop < Pieces
     @role = 'bishop'
     @marker = ["\u2657", "\u265D"]
     @symbol = symbols
+    @letter = 'B'
     @max_paths = 4
     @max_each_direction = 7
   end
@@ -130,6 +133,7 @@ class Knight < Pieces
     @role = 'knight'
     @marker = ["\u2658", "\u265E"]
     @symbol = symbols
+    @letter = 'N'
     @max_paths = 8
     @max_each_direction = 1
   end
@@ -153,6 +157,7 @@ class Rook < Pieces
     @role = 'rook'
     @marker = ["\u2656", "\u265C"]
     @symbol = symbols
+    @letter = "R"
     @max_paths = 4
     @max_each_direction = 7
   end
@@ -176,6 +181,7 @@ class Pawn < Pieces
     @role = 'pawn'
     @marker = ["\u2659", "\u265F"]
     @symbol = symbols
+    @letter = ''
     @two_step = false
   end
 
