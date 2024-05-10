@@ -4,7 +4,7 @@ class Chess
   include Validation
 
   attr_reader :board, :players, :en_passant
-  attr_accessor :round
+  attr_accessor :round, :notation
 
   def initialize(first, last)
     @players = [first.new(self, 'foo'), last.new(self, 'hoo')]
@@ -12,6 +12,7 @@ class Chess
     @current_player_id = 0
     @round = 1
     @en_passant = false
+    @notation = []
   end
 
   def create_board
@@ -114,5 +115,19 @@ class Chess
     not_has_legal_moves = (all_valid_moves - king_valid_moves).empty?
 
     current_player.mated and !current_player.checked and not_has_legal_moves
+  end
+
+  def add_notation(source, destination)
+    @board[destination].nil? ? move_notation(source, destination) : captured_notation(source, destination)
+  end
+
+  def move_notation(source, destination)
+    source_letter = @board[source].letter
+    @notation << "#{source_letter}#{source}#{destination}"
+  end
+
+  def captured_notation(source, destination)
+    source_letter = @board[source].letter
+    @notation << "#{source_letter}#{source}x#{destination}"
   end
 end
